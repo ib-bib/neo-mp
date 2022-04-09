@@ -29,7 +29,7 @@ const [play, setPlay] = useState(true);
 	       <Button
 			onClick={() => {
 				setPlay(!play);
-                                // Here we use the setPlay function to change the state of our component
+                        // Here we use the setPlay function to change the state of our component
 			}}
 			icon={play ? FaPlay() : FaPause()}
 		/>
