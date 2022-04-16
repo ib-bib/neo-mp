@@ -67,7 +67,7 @@ We can apply that 'xsm' class with whatever stylistic choice we want applied at 
 As for applying dark mode to a page, you simply toggle the class 'dark' on a parent of an element which you desire the mode to be applied on
 A very easy approach is just toggling the class on the body tag of the html
 ```javascript react
-<button title="Toggle Theme" className="text-3xl mr-5 p-1 hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 transition-all duration-500 active:rotate-180 focus:duration-700"
+<button title="Toggle Theme" className="text-3xl mr-5 p-1 {...etc}"
 	onClick={() => {
 		if (tm === "light") {
 			setTheme("dark");
