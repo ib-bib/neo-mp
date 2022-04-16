@@ -37,3 +37,47 @@ const [play, setPlay] = useState(true);
 		Code ...
 		*/
 ```
+## Week Two - Tailwind config file and customizations, Tailwind dark mode, and more React components :
+The tailwind config file is a js file, that allows you to define custom properties for stylistic choices that can be made throug Tailwind. It also allows you to override already pre-defined properties.
+The example below shows custom break-point media query for 'extra small screens'
+
+tailwind.config.js
+```javascript
+module.exports = {
+	darkMode: "class",
+	// This is an explicit definition for dark mode being a manually toggleable class
+	content: ["./src/**/*.{js,jsx,ts,tsx}"],
+	theme: {
+		screens: {
+			xsm: "510px",
+			// We see here an example of a custom tailwind class
+			// This class in particular is for a screen media query
+		},
+		extend: {},
+	},
+	plugins: [],
+};
+
+```
+We can apply that 'xsm' class with whatever stylistic choice we want applied at the breakpoint, like this
+```html
+<div className="mr-12 xsm:mr-6">foo bar</div>
+<!-- As an example, we change the margin-right value if the break-point is detected -->
+```
+As for applying dark mode to a page, you simply toggle the class 'dark' on a parent of an element which you desire the mode to be applied on
+A very easy approach is just toggling the class on the body tag of the html
+```javascript react
+<button title="Toggle Theme" className="text-3xl mr-5 p-1 hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 transition-all duration-500 active:rotate-180 focus:duration-700"
+	onClick={() => {
+		if (tm === "light") {
+			setTheme("dark");
+			document.body.classList.add("dark");
+		} else {
+			document.body.classList.remove("dark");
+			setTheme("light");
+		}
+	}}
+>
+	{tm === "light" ? BsMoon() : CgSun()}
+</button>
+```
