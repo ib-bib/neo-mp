@@ -1,16 +1,17 @@
 {
   "files": {
-    "main.css": "/neo-mp/static/css/main.a391ab32.css",
-    "main.js": "/neo-mp/static/js/main.f4d27e00.js",
+    "main.css": "/neo-mp/static/css/main.c7fb7340.css",
+    "main.js": "/neo-mp/static/js/main.fe35a6a2.js",
     "static/js/787.c59f1d6c.chunk.js": "/neo-mp/static/js/787.c59f1d6c.chunk.js",
     "static/media/shelter.mp3": "/neo-mp/static/media/shelter.199020c792b9135c667d.mp3",
+    "static/media/shelter.jpg": "/neo-mp/static/media/shelter.c3f92611b0d4c98582f9.jpg",
     "index.html": "/neo-mp/index.html",
-    "main.a391ab32.css.map": "/neo-mp/static/css/main.a391ab32.css.map",
-    "main.f4d27e00.js.map": "/neo-mp/static/js/main.f4d27e00.js.map",
+    "main.c7fb7340.css.map": "/neo-mp/static/css/main.c7fb7340.css.map",
+    "main.fe35a6a2.js.map": "/neo-mp/static/js/main.fe35a6a2.js.map",
     "787.c59f1d6c.chunk.js.map": "/neo-mp/static/js/787.c59f1d6c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a391ab32.css",
-    "static/js/main.f4d27e00.js"
+    "static/css/main.c7fb7340.css",
+    "static/js/main.fe35a6a2.js"
   ]
 }
