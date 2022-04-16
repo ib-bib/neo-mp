@@ -41,7 +41,7 @@ const [play, setPlay] = useState(true);
 The tailwind config file is a js file, that allows you to define custom properties for stylistic choices that can be made throug Tailwind. It also allows you to override already pre-defined properties.
 The example below shows custom break-point media query for 'extra small screens'
 
-tailwind.config.js
+### tailwind.config.js
 ```javascript
 module.exports = {
 	darkMode: "class",
