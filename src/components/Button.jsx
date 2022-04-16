@@ -1,17 +1,9 @@
-const Button = ({ icon, theme, onClick }) => {
-	const darkStyle = {
-		color: "white",
-		backGroundColor: "black",
-	};
-	const lightStyle = {
-		color: "black",
-		backGroundColor: "white",
-	};
+const Button = ({ icon, onClick, id }) => {
 	return (
 		<button
+			id={id}
 			type="button"
-			style={theme === "light" ? lightStyle : darkStyle}
-			className="inline-block lg:mx-12 md:mx-10 sm:mx-5 xsm:mx-3 rounded-full shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out btn"
+			className="text-black bg-white dark:bg-black dark:text-white active:scale-90 hover:bg-gray-200 dark:hover:bg-gray-900 mx-4 rounded-full shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition-shadow hover:duration-150 ease-in-out btn"
 			onClick={onClick}
 		>
 			{icon}
