@@ -40,7 +40,7 @@ const [play, setPlay] = useState(true);
 	       <Button
 			onClick={() => {
 				setPlay(!play);
-                        	// Here we use the setPlay function to change the state of our component
+                        // Here we use the setPlay function to change the state of our component
 			}}
 			icon={play ? FaPlay() : FaPause()}
 		/>
@@ -99,7 +99,7 @@ For example, in my web app, we can see when the audio player's state changes fro
 This feature allows us to better debug the front-end on our web apps, by seeing what variations occured to the app's state along the way to a bug's manifestation.
 
 We identify types of actions we imagine would change the state
-### actionTypes.js
+### src/actionTypes.js
 ```javascript
 const HOME = "Home";
 const SONGS = "Tracks";
@@ -128,7 +128,7 @@ const theme = { IS_DARK, IS_LIGHT };
 export { pages, audioStates, theme };
 ```
 We then create a reducer function that handles the different actions to state, and responds with an update to state
-### reducer.js
+### src/reducer.js
 ```javascript
 import * as actions from "./actionTypes";
 
@@ -169,7 +169,7 @@ export default reducer;
 ```
 We then pass this reducer function as an argument to the store (as well as an identifier for the dev tools extension if you want it)
 To take a small look at the store's content at any point, turn on your browser's dev tools, and check out the console
-### store.js
+### src/store.js
 ```javascript
 import reducer from "./reducer";
 import { legacy_createStore as createStore } from "redux";
@@ -182,7 +182,7 @@ const store = createStore(
 export default store;
 ```
 We can create action creator functions for different actions (Not necessary, just a good practice)
-### actionCreator.jsx
+### src/components/actionCreator.jsx
 ```javascript
 const navAction = page => ({
 	type: actions.pages,
@@ -207,7 +207,7 @@ const themeAction = colorTheme => ({
 ```
 To send the actions to the store, and by extension the reducer that handles it, we use the store.dispatch() function
 Here is an example
-### Nav.jsx
+### src/components/Nav.jsx
 ```javascript
 const dispatchPage = page => {
 	store.dispatch(navAction(page));
