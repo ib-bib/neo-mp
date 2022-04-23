@@ -1,6 +1,6 @@
 import shelter from "./shelter.jpg";
 
-const Cover = () => {
+const Cover = ({ size }) => {
 	return (
 		<div>
 			<img

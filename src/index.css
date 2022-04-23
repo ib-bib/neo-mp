@@ -25,3 +25,7 @@ code {
 	font-size: 25px;
 	padding: 17px;
 }
+
+#volSlide {
+	-webkit-appearance: slider-vertical;
+}
