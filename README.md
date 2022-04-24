@@ -94,7 +94,7 @@ A very easy approach is just toggling the class on the body tag of the html
 ```
 
 ## Week Three - Redux for state management :
-I used a legacy feature on Redux, namely the 'Store'. This store acts like a front-end database or repository, for all state variations to the web app.
+This week I learned about the 'Store' on Redux, with which we manage state in our app. This store acts like a front-end database or repository, for all state variations to the web app.
 For example, in my web app, we can see when the audio player's state changes from playing to paused, or from looping to not.
 This feature allows us to better debug the front-end on our web apps, by seeing what variations occured to the app's state along the way to a bug's manifestation.
 
