@@ -8,23 +8,19 @@ import {
 } from "react-icons/fa";
 import { RiRepeatLine, RiRepeatOneLine } from "react-icons/ri";
 import Button from "./Button";
-import { useState } from "react";
 import shelter from "./tracks/shelter.mp3";
-import { audioAction } from "./../actionCreator";
-import { audioStates } from "../actionTypes";
-import store from "./../store";
+import { playerToggle, looperToggle, changeVolume } from "./../actionCreator";
+import { PlayerState, LooperState } from "../actionTypes";
+import { useDispatch, useSelector } from "react-redux";
 
 const ButtonPanel = () => {
-	const [play, setPP] = useState(true);
-	const [loop, setLoop] = useState(false);
+	const dispatch = useDispatch();
+	const looper = useSelector(state => state.looper);
+	const player = useSelector(state => state.player);
 	let volChange = false;
 
 	const addZERO = x => {
 		return (parseInt(x, 10) < 10 ? "0" : "") + x;
-	};
-	const dispatchAudio = toggle => {
-		store.dispatch(audioAction(toggle));
-		console.log(store.getState());
 	};
 
 	return (
@@ -57,11 +53,9 @@ const ButtonPanel = () => {
 						Math.trunc(
 							document.querySelector("audio").duration % 60
 						);
-					dispatchAudio(audioStates.IS_PAUSED);
-					dispatchAudio(audioStates.IS_NOT_LOOPING);
 				}}
 				onEnded={() => {
-					setPP(true);
+					dispatch(playerToggle(PlayerState.IS_PAUSED));
 				}}
 				onTimeUpdate={() => {
 					let input = document.getElementById("daSlider");
@@ -74,7 +68,7 @@ const ButtonPanel = () => {
 					)}</span>`;
 					input.value = Math.trunc(audio.currentTime);
 				}}
-				loop={loop}
+				loop={looper === LooperState.IS_LOOPING ? true : false}
 			>
 				<source src={shelter}></source>
 			</audio>
@@ -88,16 +82,17 @@ const ButtonPanel = () => {
 				id="tglLoop"
 				type="button"
 				onClick={() => {
-					setLoop(!loop);
-					dispatchAudio(
-						loop
-							? audioStates.IS_NOT_LOOPING
-							: audioStates.IS_LOOPING
-					);
+					if (looper === LooperState.IS_NOT_LOOPING) {
+						dispatch(looperToggle(LooperState.IS_LOOPING));
+					} else {
+						dispatch(looperToggle(LooperState.IS_NOT_LOOPING));
+					}
 				}}
 				className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-900  bg-white text-black dark:bg-black dark:text-white active:scale-90 shadow-lg text-xl p-3 mr-4"
 			>
-				{loop ? RiRepeatOneLine() : RiRepeatLine()}
+				{looper === LooperState.IS_LOOPING
+					? RiRepeatOneLine()
+					: RiRepeatLine()}
 			</button>
 			<Button
 				id={"revAud"}
@@ -114,17 +109,15 @@ const ButtonPanel = () => {
 			<Button
 				id={"playAud"}
 				onClick={() => {
-					if (play) {
+					if (player === PlayerState.IS_PAUSED) {
 						document.querySelector("audio").play();
+						dispatch(playerToggle(PlayerState.IS_PLAYING));
 					} else {
 						document.querySelector("audio").pause();
+						dispatch(playerToggle(PlayerState.IS_PAUSED));
 					}
-					setPP(!play);
-					dispatchAudio(
-						play ? audioStates.IS_PLAYING : audioStates.IS_PAUSED
-					);
 				}}
-				icon={play ? FaPlay() : FaPause()}
+				icon={player === PlayerState.IS_PAUSED ? FaPlay() : FaPause()}
 			/>
 			<Button
 				id={"frdAud"}
@@ -152,7 +145,7 @@ const ButtonPanel = () => {
 				}}
 				onBlur={() => {
 					if (volChange) {
-						dispatchAudio(audioStates.VOL_CHNG);
+						dispatch(changeVolume());
 						return;
 					}
 					document.getElementById("volSlide").classList.add("hidden");

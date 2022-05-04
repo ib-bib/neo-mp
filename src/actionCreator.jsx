@@ -4,26 +4,36 @@ import ButtonPanel from "./components/ButtonPanel";
 import Equalizer from "./components/Equalizer";
 import Songs from "./components/Songs";
 import Playlists from "./components/Playlists";
+import SecBtnPnl from "./components/SecBtnPnl";
 
 const navAction = page => ({
 	type: actions.pages,
-	payload: {
-		description: page,
-	},
+	payload: page,
 });
 
-const audioAction = toggle => ({
-	type: actions.audioStates,
-	payload: {
-		description: toggle,
-	},
+const expandBar = expansion => ({
+	type: actions.navbarState,
+	payload: expansion,
 });
 
-const themeAction = colorTheme => ({
+const playerToggle = toggle => ({
+	type: actions.PlayerState,
+	payload: toggle,
+});
+
+const looperToggle = toggle => ({
+	type: actions.LooperState,
+	payload: toggle,
+});
+
+const changeVolume = () => ({
+	type: actions.VolumeState,
+	payload: "volumeChanged",
+});
+
+const toggleTheme = theme => ({
 	type: actions.theme,
-	payload: {
-		description: colorTheme,
-	},
+	payload: theme,
 });
 
 const goPage = page => {
@@ -37,14 +47,30 @@ const goPage = page => {
 				</>
 			);
 		case actions.pages.SONGS:
-			return <Songs />;
+			return (
+				<>
+					<Songs />
+					<SecBtnPnl />
+				</>
+			);
 		case actions.pages.PLAYLISTS:
-			return <Playlists />;
+			return (
+				<>
+					<Playlists />
+					<SecBtnPnl />
+				</>
+			);
 		case actions.pages.EQUALIZER:
-			return <Equalizer />;
+			return (
+				<>
+					<Equalizer />
+					<SecBtnPnl />
+				</>
+			);
 		default:
 			return (
 				<>
+					<h1 className="text-5xl">Music Player Demo</h1>
 					<Cover />
 					<ButtonPanel />
 				</>
@@ -52,4 +78,12 @@ const goPage = page => {
 	}
 };
 
-export { goPage, navAction, audioAction, themeAction };
+export {
+	goPage,
+	navAction,
+	expandBar,
+	playerToggle,
+	looperToggle,
+	changeVolume,
+	toggleTheme,
+};
