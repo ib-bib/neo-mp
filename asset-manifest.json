@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/neo-mp/static/css/main.1fbab617.css",
-    "main.js": "/neo-mp/static/js/main.2e3aae40.js",
+    "main.js": "/neo-mp/static/js/main.c0aba135.js",
     "static/media/shelter.mp3": "/neo-mp/static/media/shelter.199020c792b9135c667d.mp3",
     "static/media/shelter.jpg": "/neo-mp/static/media/shelter.c3f92611b0d4c98582f9.jpg",
     "index.html": "/neo-mp/index.html",
     "main.1fbab617.css.map": "/neo-mp/static/css/main.1fbab617.css.map",
-    "main.2e3aae40.js.map": "/neo-mp/static/js/main.2e3aae40.js.map"
+    "main.c0aba135.js.map": "/neo-mp/static/js/main.c0aba135.js.map"
   },
   "entrypoints": [
     "static/css/main.1fbab617.css",
-    "static/js/main.2e3aae40.js"
+    "static/js/main.c0aba135.js"
   ]
 }
