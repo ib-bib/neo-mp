@@ -1,32 +1,32 @@
 import { FaBars } from "react-icons/fa";
-import { CgSun } from "react-icons/cg";
-import { BsMoon } from "react-icons/bs";
 import { RiEqualizerLine, RiPlayListLine } from "react-icons/ri";
 import { IoHome } from "react-icons/io5";
 import { FiMusic } from "react-icons/fi";
-import { useState } from "react";
-import { pages, theme } from "./../actionTypes";
-import { navAction, goPage, themeAction } from "./../actionCreator";
-import store from "./../store";
+import { CgSun } from "react-icons/cg";
+import { BsMoon } from "react-icons/bs";
+import { toggleTheme, navAction, goPage, expandBar } from "../actionCreator";
+import { theme as themeCheck, pages, navbarState } from "../actionTypes";
+import { useDispatch, useSelector } from "react-redux";
 
 const Nav = () => {
-	const dispatchPage = page => {
-		store.dispatch(navAction(page));
-		console.log(store.getState());
-	};
-	const dispatchTheme = theme => {
-		store.dispatch(themeAction(theme));
-		console.log(store.getState());
-	};
+	const dispatch = useDispatch();
+	const expanded = useSelector(state => state.navbar);
+	const themeSelector = useSelector(state => state.theme);
+	const pageSelector = useSelector(state => state.page);
 
-	const [pageNav, setPage] = useState({
-		home: true,
-		songs: false,
-		playlists: false,
-		equalizer: false,
-	});
-	const [tm, setTheme] = useState("light");
-	let expanded = false;
+	let atHome = () => pageSelector === pages.HOME;
+	let atSongs = () => pageSelector === pages.SONGS;
+	let atPlaylists = () => pageSelector === pages.PLAYLISTS;
+	let atEqualizer = () => pageSelector === pages.EQUALIZER;
+
+	const customFn = () => {
+		const btn = document.getElementById("tglThemeBtn");
+		const observer = new MutationObserver(() => {
+			document.body.classList.toggle("dark");
+		});
+		observer.observe(btn, { subtree: true, childList: true });
+	};
+	window.addEventListener("load", customFn);
 
 	return (
 		<>
@@ -40,16 +40,20 @@ const Nav = () => {
 					}
 				}}
 				onMouseLeave={() => {
-					if (expanded) {
+					const spans = document.getElementsByClassName("customSpan");
+					if (expanded === navbarState.expanded) {
+						for (let i = 0; i < spans.length; i++) {
+							spans.item(i).classList.remove("opacity-0");
+							spans.item(i).classList.add("opacity-100");
+						}
 						return;
 					}
-					const spans = document.getElementsByClassName("customSpan");
 					for (let i = 0; i < spans.length; i++) {
 						spans.item(i).classList.add("opacity-0");
 						spans.item(i).classList.remove("opacity-100");
 					}
 				}}
-				className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[55px] hover:w-[275px] overflow-y-auto text-center h-screen overflow-x-hidden bg-gray-100 dark:bg-gray-900 opacity-95 transition-all duration-500"
+				className="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[55px] hover:w-[255px] overflow-y-auto text-center h-screen overflow-x-hidden bg-gray-100 dark:bg-gray-900 opacity-95 transition-all duration-500"
 			>
 				<ul className="text-left dark:text-white flex flex-col h-full">
 					<li className="flex flex-row items-center">
@@ -57,18 +61,15 @@ const Nav = () => {
 							title="Toggle Menu"
 							className="mr-5 p-1 text-3xl hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 hover:transition-colors"
 							onClick={() => {
-								if (!expanded) {
-									expanded = true;
-								} else {
-									expanded = false;
-								}
 								let nav = document.getElementById("leNav");
-								if (nav.classList.contains("w-[275px]")) {
-									nav.classList.remove("w-[275px]");
+								if (nav.classList.contains("w-[255px]")) {
+									nav.classList.remove("w-[255px]");
 									nav.classList.toggle("w-[55px]");
+									dispatch(expandBar("collapsed"));
 								} else {
 									nav.classList.remove("w-[55px]");
-									nav.classList.toggle("w-[275px]");
+									nav.classList.toggle("w-[255px]");
+									dispatch(expandBar(navbarState.expanded));
 								}
 							}}
 						>
@@ -88,7 +89,7 @@ const Nav = () => {
 							let liItems =
 								document.getElementsByClassName("cstmLi");
 							for (let i = 0; i < liItems.length; i++) {
-								if (tm === "light") {
+								if (themeSelector === themeCheck.IS_LIGHT) {
 									liItems
 										.item(i)
 										.classList.remove("border-l-2");
@@ -106,22 +107,15 @@ const Nav = () => {
 							}
 							let homeLi = document.getElementById("HomeLi");
 							homeLi.classList.add("border-l-2");
-							if (tm === "light") {
-								homeLi.classList.add("border-l-black");
-							} else {
-								homeLi.classList.add("border-l-white");
-							}
+							homeLi.classList.add("border-l-black");
+							homeLi.classList.add("dark:border-l-white");
 						}}
 					>
 						<button
 							title="Home"
 							className="mr-5 p-1 text-3xl hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 hover:transition-colors"
 							onClick={() => {
-								Object.keys(pageNav).forEach(
-									page => (pageNav[page] = false)
-								);
-								setPage({ ...pageNav, home: true });
-								dispatchPage(pages.HOME);
+								dispatch(navAction(pages.HOME));
 							}}
 						>
 							{IoHome()}
@@ -137,7 +131,7 @@ const Nav = () => {
 							let liItems =
 								document.getElementsByClassName("cstmLi");
 							for (let i = 0; i < liItems.length; i++) {
-								if (tm === "light") {
+								if (themeSelector === themeCheck.IS_LIGHT) {
 									liItems
 										.item(i)
 										.classList.remove("border-l-2");
@@ -155,23 +149,15 @@ const Nav = () => {
 							}
 							let songsLi = document.getElementById("SongsLi");
 							songsLi.classList.add("border-l-2");
-							if (tm === "light") {
-								songsLi.classList.add("border-l-black");
-								songsLi.classList.add("dark:border-l-white");
-							} else {
-								songsLi.classList.add("border-l-white");
-							}
+							songsLi.classList.add("border-l-black");
+							songsLi.classList.add("dark:border-l-white");
 						}}
 					>
 						<button
 							title="Songs List"
 							className="mr-5 p-1 text-3xl hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 hover:transition-colors"
 							onClick={() => {
-								Object.keys(pageNav).forEach(
-									page => (pageNav[page] = false)
-								);
-								setPage({ ...pageNav, songs: true });
-								dispatchPage(pages.SONGS);
+								dispatch(navAction(pages.SONGS));
 							}}
 						>
 							{FiMusic()}
@@ -187,7 +173,7 @@ const Nav = () => {
 							let liItems =
 								document.getElementsByClassName("cstmLi");
 							for (let i = 0; i < liItems.length; i++) {
-								if (tm === "light") {
+								if (themeSelector === themeCheck.IS_LIGHT) {
 									liItems
 										.item(i)
 										.classList.remove("border-l-2");
@@ -205,23 +191,15 @@ const Nav = () => {
 							}
 							let playLi = document.getElementById("PlayLi");
 							playLi.classList.add("border-l-2");
-							if (tm === "light") {
-								playLi.classList.add("border-l-black");
-								playLi.classList.add("dark:border-l-white");
-							} else {
-								playLi.classList.add("border-l-white");
-							}
+							playLi.classList.add("border-l-black");
+							playLi.classList.add("dark:border-l-white");
 						}}
 					>
 						<button
 							title="Playlists"
 							className="mr-5 p-1 text-3xl hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 hover:transition-colors"
 							onClick={() => {
-								Object.keys(pageNav).forEach(
-									page => (pageNav[page] = false)
-								);
-								setPage({ ...pageNav, playlists: true });
-								dispatchPage(pages.PLAYLISTS);
+								dispatch(navAction(pages.PLAYLISTS));
 							}}
 						>
 							{RiPlayListLine()}
@@ -237,7 +215,7 @@ const Nav = () => {
 							let liItems =
 								document.getElementsByClassName("cstmLi");
 							for (let i = 0; i < liItems.length; i++) {
-								if (tm === "light") {
+								if (themeSelector === themeCheck.IS_LIGHT) {
 									liItems
 										.item(i)
 										.classList.remove("border-l-2");
@@ -255,23 +233,15 @@ const Nav = () => {
 							}
 							let equalLi = document.getElementById("EquaLi");
 							equalLi.classList.add("border-l-2");
-							if (tm === "light") {
-								equalLi.classList.add("border-l-black");
-								equalLi.classList.add("dark:border-l-white");
-							} else {
-								equalLi.classList.add("border-l-white");
-							}
+							equalLi.classList.add("border-l-black");
+							equalLi.classList.add("dark:border-l-white");
 						}}
 					>
 						<button
 							title="Equalizer"
 							className="mr-5 p-1 text-3xl hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 hover:transition-colors"
 							onClick={() => {
-								Object.keys(pageNav).forEach(
-									page => (pageNav[page] = false)
-								);
-								setPage({ ...pageNav, equalizer: true });
-								dispatchPage(pages.EQUALIZER);
+								dispatch(navAction(pages.EQUALIZER));
 							}}
 						>
 							{RiEqualizerLine()}
@@ -283,21 +253,20 @@ const Nav = () => {
 					{/* Toggle Theme */}
 					<li className="mt-auto flex flex-row items-center">
 						<button
+							id="tglThemeBtn"
 							title="Toggle Theme"
 							className="text-3xl mr-5 p-1 hover:bg-gray-300 dark:hover:bg-gray-700 hover:duration-200 active:rotate-180 focus:transition-transform focus:duration-700"
 							onClick={() => {
-								if (tm === "light") {
-									setTheme("dark");
-									document.body.classList.add("dark");
-									dispatchTheme(theme.IS_DARK);
+								if (themeSelector === themeCheck.IS_LIGHT) {
+									dispatch(toggleTheme(themeCheck.IS_DARK));
 								} else {
-									document.body.classList.remove("dark");
-									setTheme("light");
-									dispatchTheme(theme.IS_LIGHT);
+									dispatch(toggleTheme(themeCheck.IS_LIGHT));
 								}
 							}}
 						>
-							{tm === "light" ? BsMoon() : CgSun()}
+							{themeSelector === themeCheck.IS_LIGHT
+								? CgSun()
+								: BsMoon()}
 						</button>
 						<span className="text-2xl customSpan opacity-0 transition-[opacity] duration-500">
 							Theme
@@ -305,10 +274,10 @@ const Nav = () => {
 					</li>
 				</ul>
 			</nav>
-			{pageNav.home && goPage(pages.HOME)}
-			{pageNav.songs && goPage(pages.SONGS)}
-			{pageNav.playlists && goPage(pages.PLAYLISTS)}
-			{pageNav.equalizer && goPage(pages.EQUALIZER)}
+			{atHome() && goPage(pages.HOME)}
+			{atSongs() && goPage(pages.SONGS)}
+			{atPlaylists() && goPage(pages.PLAYLISTS)}
+			{atEqualizer() && goPage(pages.EQUALIZER)}
 		</>
 	);
 };

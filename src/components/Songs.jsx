@@ -1,5 +1,5 @@
 const Songs = () => {
-	return <div className="text-5xl">Songs</div>;
+	return <div className="text-5xl">Track list</div>;
 };
 
 export default Songs;

@@ -1,33 +1,44 @@
 import * as actions from "./actionTypes";
 
-let ACTION_COUNT = 0;
+const defaultState = {
+	theme: actions.theme.IS_LIGHT,
+	player: actions.PlayerState.IS_PAUSED,
+	looper: actions.LooperState.IS_NOT_LOOPING,
+	page: actions.pages.HOME,
+};
 
-const reducer = (state = [], action) => {
+const reducer = (state = defaultState, action) => {
 	switch (action.type) {
 		case actions.pages:
-			return [
+			return {
 				...state,
-				{
-					actionNum: ++ACTION_COUNT,
-					navigated: action.payload.description,
-				},
-			];
-		case actions.audioStates:
-			return [
+				page: action.payload,
+			};
+		case actions.PlayerState:
+			return {
 				...state,
-				{
-					actionNum: ++ACTION_COUNT,
-					playerMode: action.payload.description,
-				},
-			];
+				player: action.payload,
+			};
+		case actions.LooperState:
+			return {
+				...state,
+				looper: action.payload,
+			};
+		case actions.VolumeState:
+			return {
+				...state,
+				volume: action.payload,
+			};
 		case actions.theme:
-			return [
+			return {
 				...state,
-				{
-					actionNum: ++ACTION_COUNT,
-					theme: action.payload.description,
-				},
-			];
+				theme: action.payload,
+			};
+		case actions.navbarState:
+			return {
+				...state,
+				navbar: action.payload,
+			};
 		default:
 			return state;
 	}
