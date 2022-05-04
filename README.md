@@ -278,7 +278,7 @@ So we can do something like this
 So we have a pattern that's similar to setters to and getters. Where we "set" an update to the state, and we "get" the data of the state.
 <hr/>
 
-### Using the Redux devtools allows us to see the effects in a really cool manner, where we kind of travel through time to each instance of state update.
+### Using the Redux devtools allows us to see this play out in a really fun manner, where we "time-travel" to each instance of state update.
 ### Try changing something on the page, then going back to the prior state.
 ### Now navigate to the devtools window. Find the tab titled 'State', and look at the list to the left.
 ![1](https://user-images.githubusercontent.com/81387641/166805275-ac11ea9a-184c-4a6a-85f8-bdb3011ecedb.png)
