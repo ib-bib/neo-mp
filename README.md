@@ -220,3 +220,68 @@ const dispatchTheme = theme => {
 ```
 For a simple idea of what the store looks like after every state change, check out your browser console
 If you want a more in-depth look, get a Redux browser extension ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/), [Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)). Then take a look the Redux window on your browser's dev tools
+
+## Week Two - Connecting React and Redux
+Now that we are familiar with the workflow of Redux (the actions, dispatching, and the reducer function), we now have the liberty to do away with manipulating state locally in a component. Instead, we can determine the behaviour of a component based on the state in our store.
+To start, we connect our store to our application, and make it "visible" for all components. To do that, we wrap our ```<App />``` in a ```Provider``` with a 'store' prop.
+### src/index.js
+```javascript react
+import React from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { Provider } from "react-redux";
+import store from "./store";
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+	<Provider store={store}>
+		<App />
+	</Provider>
+);
+```
+Now, everything down the DOM tree that is descendant of the App can access the store
+In order to update state, we know we need to dispatch an action. However, now that we have connected our store to our app, we use a specific function provided by the 'react-redux' module, namely, ```useDispatch()```.
+In order to "read" state, to update and re-render our components, we use ```useSelector(state)```
+### src/components/Nav.jsx
+``` javascript react
+import { useDispatch, useSelector } from "react-redux";
+
+const Nav = () => {
+	const dispatch = useDispatch();
+	const expanded = useSelector(state => state.navbar);
+	const themeSelector = useSelector(state => state.theme);
+	const pageSelector = useSelector(state => state.page);
+```
+So let's say we want to change the theme of our application. We'll have to dispatch an action that updates state with the theme opposite to the current, which will look something like this
+### src/components/Nav.jsx
+```javascript react
+<button
+	onClick={() => {
+		if (themeSelector === themeCheck.IS_LIGHT) {
+			dispatch(toggleTheme(themeCheck.IS_DARK));
+		} else {
+			dispatch(toggleTheme(themeCheck.IS_LIGHT));
+		}
+	}}
+>
+```
+Now, we need to update our react application to accommodate for the state update in the store. Say we want to display the Sun icon when the theme is light, and the Moon crescent icon when it's dark
+So we can do something like this
+### src/components/Nav.jsx
+```javascript react
+{themeSelector === themeCheck.IS_LIGHT
+	? CgSun()
+	: BsMoon()
+}
+```
+So we have a pattern that's similar to setters to and getters. Where we "set" an update to the state, and we "get" the data of the state.
+<hr/>
+
+### Using the Redux devtools allows us to see the effects in a really cool manner, where we kind of travel through time to each instance of state update.
+### Try changing something on the page, then going back to the prior state.
+### Now navigate to the devtools window. Find the tab titled 'State', and look at the list to the left.
+![1](https://user-images.githubusercontent.com/81387641/166805275-ac11ea9a-184c-4a6a-85f8-bdb3011ecedb.png)
+
+### If you hover over an item on the list, you will have the option to Jump. Click around on these list items, and see what happens
+![2](https://user-images.githubusercontent.com/81387641/166805447-e54f9a26-9fd8-4775-a67c-ed959321ecb1.png)
