@@ -28,7 +28,7 @@ function App() {
 	);
 }
 ```
-Example below shows an example of React state management using an arrow function component
+Example below shows React state management using an arrow function component
 ```javascript react
 const ButtonPanel = ({ theme }) => {
 const [play, setPlay] = useState(true);
@@ -221,7 +221,7 @@ const dispatchTheme = theme => {
 For a simple idea of what the store looks like after every state change, check out your browser console
 If you want a more in-depth look, get a Redux browser extension ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/), [Chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)). Then take a look the Redux window on your browser's dev tools
 
-## Week Two - Connecting React and Redux
+## Week Four - Connecting React and Redux
 Now that we are familiar with the workflow of Redux (the actions, dispatching, and the reducer function), we now have the liberty to do away with manipulating state locally in a component. Instead, we can determine the behaviour of a component based on the state in our store.
 To start, we connect our store to our application, and make it "visible" for all components. To do that, we wrap our ```<App />``` in a ```Provider``` with a 'store' prop.
 ### src/index.js
