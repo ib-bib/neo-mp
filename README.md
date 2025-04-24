@@ -3,8 +3,8 @@
 Here I will upload my progress on learning React.js, Redux and Tailwind on a set schedule. I am attempting to build a music player to apply what I learn along the way.
 
 [<span>
-<img width='150' src='https://i0.wp.com/programmingwithmosh.com/wp-content/uploads/2019/01/2000px-React-icon.svg_.png?fit=2000%2C1413&ssl=1' />
-</span>](https://reactjs.org/)
+<img width='100' src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' />
+</span>](https://react.dev/)
 [<span>
 <img width='100' src='https://media.zeemly.com/zeemly/product/tailwind-css.png' />
 </span>](https://tailwindcss.com)
